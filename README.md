@@ -1,4 +1,4 @@
-# Jogo-da-Forca-
+# Jogo-da-Velha-
 
 Criar um jogo da forca completamente funcional utilizando puramente da linguagem C
 ## Critérios de avaliação
