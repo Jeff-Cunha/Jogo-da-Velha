@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <locale.h>
+#include <stdlib.h>
 
 // Função para exibir o tabuleiro do jogo
 void mostrarTabuleiro(char (*tabuleiro)[3]) {
@@ -49,7 +50,7 @@ int verificarVencedor(char (*tabuleiro)[3]) {
 }
 
 // Função principal do jogo da velha
-void jogoDaVelha() {
+void jogoDaVelha(int *pontosJogador1, int *pontosJogador2) {
     int i, linha, coluna, cont;
     char matriz[3][3];
 
@@ -87,9 +88,16 @@ void jogoDaVelha() {
 
             // Verifica se há um vencedor após a jogada atual
             if (verificarVencedor(matriz)) {
-                printf("\nO Jogador %d ganhou a partida!", (cont % 2) + 1);
-                break;
+                printf("\nO Jogador %d ganhou a partida!\n", (cont % 2) + 1);
+                
+                // Irá registrar e armazenar na variável quantas vezes o jogador ganhou.
+                if ((cont % 2) + 1 == 1) {
+                (*pontosJogador1)++;
+            } else {
+                (*pontosJogador2)++;
             }
+            break;
+        	}
         } else {
             printf("\nO espaço escolhido já está ocupado, repita a operação para um espaço válido\n");
             cont--;
@@ -110,21 +118,28 @@ int main() {
     setlocale(0, "Portuguese");
 
     int escolha;
+    int pontosJogador1 = 0;
+    int pontosJogador2 = 0;
 
     // Loop principal do menu do jogo
     do {
         printf("<----JOGO DA VELHA---->\n");
         printf("\nPara jogar, digite (1)\n");
         printf("Para acessar os créditos, digite (2)\n");
-        printf("Para finalizar, digite (3)\n");
+        printf("Para acessar o score, digite (3)\n");
+        printf("Para finalizar, digite (4)\n");
         scanf("%d", &escolha);
 
         // Verifica a escolha do usuário e executa a ação correspondente
         if (escolha == 1) {
-            jogoDaVelha(); // Inicia o jogo da velha
+            jogoDaVelha(&pontosJogador1, &pontosJogador2); // Inicia o jogo da velha
         } else if (escolha == 2) {
             exibirCreditos(); // Exibe os créditos
-        } else if (escolha == 3) {
+        } else if(escolha == 3){	// Exibe quantas vezes o jogador ganhou 
+			printf("O jogador 1 venceu %d partidas\n", pontosJogador1);
+			printf("O jogador 2 venceu %d partidas\n", pontosJogador2);
+			
+		}else if (escolha == 4) {
             printf("             OOOOOOOOOOO               \n");
             printf("         OOOOOOOOOOOOOOOOOOO           \n");
             printf("      OOOOOO  OOOOOOOOO  OOOOOO        \n");
@@ -143,7 +158,7 @@ int main() {
             printf("\n	Obrigado por jogar!\n");
             // ... Mensagem de saída ...
         }
-    } while (escolha != 3);
+    } while (escolha != 4);
 
     return 0;
    
